@@ -1,24 +1,29 @@
-var sonos = require('sonos');
+var music = require('./music');
+var five = require('johnny-five');
+var board, lcd, last;
 
-function getTrack(room, cb) {
-  sonos.search(function(device) {
-    device.getZoneAttrs(function(err, data) {
-      if(data.CurrentZoneName === room) {
-        device.currentTrack(function(err, data) {
-          cb(data);
-        });
+board = new five.Board();
+
+board.on('ready', function() {
+
+  lcd = new five.LCD({
+    pins: [7, 8, 9, 10, 11, 12],
+    backlight: 6,
+    rows: 2,
+    cols: 16
+  });
+
+  this.loop(1000, function() {
+    music.getTrack('Living Room', function (data) {
+      if(last !== data.title) {
+        lcd.clear().print(data.artist).cursor(1, 0).print(data.title);
+        console.log(data);
       }
+      last = data.title;
     });
   });
-}
 
-var last;
-
-setInterval(function() {
-  getTrack('Living Room', function (data) {
-    if(last !== data.title) {
-      console.log(data.artist + ' - ' + data.title);
-    }
-    last = data.title;
+  this.repl.inject({
+    lcd: lcd
   });
-},1000);
+});
