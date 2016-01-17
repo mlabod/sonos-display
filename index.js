@@ -17,7 +17,6 @@ board.on('ready', function() {
     music.getTrack('Living Room', function (data) {
       if(last !== data.title) {
         lcd.clear().print(data.artist).cursor(1, 0).print(data.title);
-        console.log(data);
       }
       last = data.title;
     });
