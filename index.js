@@ -16,12 +16,14 @@ board.on('ready', function() {
 
   scroll.setup({
     lcd: lcd,
-    full: false
+    full: false,
+    firstCharPauseDuration: 8000
   });
 
   this.loop(1000, function() {
     music.getTrack('Living Room', function (data) {
       if(last !== data.title) {
+        lcd.clear();
         scroll.line( 0, data.artist);
         scroll.line( 1, data.title);
       }
