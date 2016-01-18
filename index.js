@@ -1,5 +1,6 @@
 var music = require('./music');
 var five = require('johnny-five');
+var scroll = require('lcd-scrolling');
 var board, lcd, last;
 
 board = new five.Board();
@@ -13,16 +14,19 @@ board.on('ready', function() {
     cols: 16
   });
 
+  scroll.setup({
+    lcd: lcd,
+    full: false
+  });
+
   this.loop(1000, function() {
     music.getTrack('Living Room', function (data) {
       if(last !== data.title) {
-        lcd.clear().print(data.artist).cursor(1, 0).print(data.title);
+        scroll.line( 0, data.artist);
+        scroll.line( 1, data.title);
       }
       last = data.title;
     });
   });
 
-  this.repl.inject({
-    lcd: lcd
-  });
 });

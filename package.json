@@ -8,7 +8,8 @@
     "music"
   ],
   "dependencies": {
-    "sonos": "0.11.0",
-    "johnny-five": "0.9.18"
+    "johnny-five": "0.9.18",
+    "lcd-scrolling": "^1.0.2",
+    "sonos": "0.11.0"
   }
 }
