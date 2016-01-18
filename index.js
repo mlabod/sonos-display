@@ -23,7 +23,7 @@ board.on('ready', function() {
   this.loop(1000, function() {
     music.getTrack('Living Room', function (data) {
       if(last !== data.title) {
-        lcd.clear();
+        scroll.clear();
         scroll.line( 0, data.artist);
         scroll.line( 1, data.title);
       }
